@@ -3,18 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:instagram_flutter/resources/auth_methods.dart';
+import 'package:instagram_flutter/screen/login_screen.dart';
 import 'package:instagram_flutter/utils/utils.dart';
-import '../utils/colors.dart';
-import '../widgets/text_field_input.dart';
+import 'package:instagram_flutter/utils/colors.dart';
+import 'package:instagram_flutter/widgets/text_field_input.dart';
 
-class SingupScreen extends StatefulWidget {
-  const SingupScreen({Key? key}) : super(key: key);
+import '../responsive/mobile_screen_layout.dart';
+import '../responsive/responsive_layout_screen.dart';
+import '../responsive/web_screen_layout.dart';
+
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({Key? key}) : super(key: key);
 
   @override
-  State<SingupScreen> createState() => _SingupScreenState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _SingupScreenState extends State<SingupScreen> {
+class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passswordController = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
@@ -49,6 +54,15 @@ class _SingupScreenState extends State<SingupScreen> {
 
     if (res != 'success') {
       showSnackBar(res, context);
+    } else {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => const ResponsiveLayout(
+            webScreenLayout: WebScreenLayout(),
+            mobileScreenLayout: MobileScreenLayout(),
+          ),
+        ),
+      );
     }
   }
 
@@ -57,6 +71,14 @@ class _SingupScreenState extends State<SingupScreen> {
     setState(() {
       _image = im;
     });
+  }
+
+  void navigatorToLogin() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const LoginScreen(),
+      ),
+    );
   }
 
   @override
@@ -187,10 +209,10 @@ class _SingupScreenState extends State<SingupScreen> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: navigatorToLogin,
                     child: Container(
                       child: const Text(
-                        "Singup.",
+                        "Login.",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
